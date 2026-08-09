@@ -13,3 +13,7 @@ auth_env = {
 
 # Optional, defaults to `region` if unset.
 # storage_bucket_location = ""
+
+# Optional, defaults to "tools". Must match the value used by every other app
+# sharing this VPC (see terraform.module.network).
+# network_name = ""

@@ -13,6 +13,12 @@ variable "domain" {
   type        = string
 }
 
+variable "network_name" {
+  description = "Name prefix of the shared VPC network/subnet/connector (see terraform.module.network). Must match the value used by every other app sharing this VPC."
+  type        = string
+  default     = "tools"
+}
+
 variable "image_tag" {
   description = "Tag of the outlinewiki/outline image to deploy (matches TAG in docker-compose.yaml)."
   type        = string
