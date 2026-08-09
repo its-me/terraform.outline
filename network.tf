@@ -20,8 +20,8 @@ resource "google_project_service" "apis" {
 }
 
 # Shared VPC network/subnet/connector for all app deployments in this project.
-# terraform.twenty is the owning caller (create = true); this is a consuming caller
-# (create = false) that reads the same `name` back instead of creating its own.
+# Owned and created by terraform.module.network's examples/owner stack, not by any
+# individual app; every app (this one included) just reads it back (create = false).
 module "network" {
   source = "git::https://github.com/its-me/terraform.module.network.git?ref=v0.1.0"
 
