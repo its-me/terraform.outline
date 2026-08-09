@@ -1,0 +1,15 @@
+# Copy to terraform.tfvars and fill in your own values.
+
+project_id = ""
+region     = ""
+domain     = ""
+
+# At least one sign-in provider's credentials are required, otherwise Outline
+# has no way for anyone to log in. See variable "auth_env" for details.
+auth_env = {
+  GOOGLE_CLIENT_ID     = ""
+  GOOGLE_CLIENT_SECRET = ""
+}
+
+# Optional, defaults to `region` if unset.
+# storage_bucket_location = ""
