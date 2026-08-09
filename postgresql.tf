@@ -19,7 +19,7 @@ resource "google_sql_database_instance" "main" {
 
     ip_configuration {
       ipv4_enabled    = false
-      private_network = google_compute_network.main.id
+      private_network = module.network.network_id
     }
 
     backup_configuration {
@@ -30,7 +30,7 @@ resource "google_sql_database_instance" "main" {
     user_labels = var.labels
   }
 
-  depends_on = [google_service_networking_connection.private_service_connection]
+  depends_on = [module.network]
 }
 
 resource "google_sql_database" "outline" {
