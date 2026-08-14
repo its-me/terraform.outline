@@ -17,3 +17,7 @@ auth_env = {
 # Optional, defaults to "tools". Must match the value used by every other app
 # sharing this VPC (see terraform.module.network).
 # network_name = ""
+
+# Optional, defaults to "postgres". Must match the value used by every other app
+# sharing this Cloud SQL instance (see terraform.module.postgresql).
+# db_instance_name = ""

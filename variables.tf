@@ -25,6 +25,12 @@ variable "image_tag" {
   default     = "latest"
 }
 
+variable "db_instance_name" {
+  description = "Name of the shared Cloud SQL instance (see terraform.module.postgresql). Must match the value used by every other app sharing this instance."
+  type        = string
+  default     = "postgres"
+}
+
 variable "db_name" {
   description = "Postgres database name (matches the database in DATABASE_URL)."
   type        = string
@@ -35,24 +41,6 @@ variable "db_user" {
   description = "Postgres user (matches the user in DATABASE_URL)."
   type        = string
   default     = "outline"
-}
-
-variable "db_tier" {
-  description = "Cloud SQL machine tier for the Postgres instance."
-  type        = string
-  default     = "db-custom-1-3840"
-}
-
-variable "db_availability_type" {
-  description = "Cloud SQL availability type: ZONAL or REGIONAL (REGIONAL = HA, higher cost)."
-  type        = string
-  default     = "ZONAL"
-}
-
-variable "db_disk_size_gb" {
-  description = "Cloud SQL disk size in GB."
-  type        = number
-  default     = 20
 }
 
 variable "redis_tier" {

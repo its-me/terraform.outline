@@ -15,12 +15,12 @@ output "domain" {
 
 output "db_instance_connection_name" {
   description = "Cloud SQL instance connection name."
-  value       = google_sql_database_instance.main.connection_name
+  value       = module.postgresql.instance_connection_name
 }
 
 output "db_private_ip" {
   description = "Private IP address of the Cloud SQL instance."
-  value       = google_sql_database_instance.main.private_ip_address
+  value       = module.postgresql.instance_private_ip
 }
 
 output "redis_host" {
