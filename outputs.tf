@@ -25,7 +25,7 @@ output "db_private_ip" {
 
 output "redis_host" {
   description = "Private IP address of the Memorystore Redis instance."
-  value       = google_redis_instance.main.host
+  value       = module.redis.host
 }
 
 output "storage_bucket" {

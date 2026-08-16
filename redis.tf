@@ -1,16 +1,12 @@
-resource "google_redis_instance" "main" {
-  name           = "outline-redis"
-  project        = var.project_id
-  region         = var.region
-  tier           = var.redis_tier
-  memory_size_gb = var.redis_memory_size_gb
+# Shared Memorystore Redis instance for all app deployments in this project.
+# terraform.twenty is the owning caller (create = true); this is a consuming caller
+# (create = false) that reads the same `name` back instead of creating its own.
+# Each caller isolates its keys via its own var.redis_db index.
+module "redis" {
+  source = "git::https://github.com/its-me/terraform.module.redis.git?ref=main"
 
-  authorized_network      = module.network.network_id
-  connect_mode            = "PRIVATE_SERVICE_ACCESS"
-  redis_version           = "REDIS_7_2"
-  transit_encryption_mode = "DISABLED"
-
-  labels = var.labels
-
-  depends_on = [module.network]
+  project_id = var.project_id
+  region     = var.region
+  name       = var.redis_instance_name
+  create     = false
 }

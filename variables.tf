@@ -43,14 +43,14 @@ variable "db_user" {
   default     = "outline"
 }
 
-variable "redis_tier" {
-  description = "Memorystore Redis service tier: BASIC (single node) or STANDARD_HA (replica + failover)."
+variable "redis_instance_name" {
+  description = "Name of the shared Memorystore Redis instance (see terraform.module.redis). Must match the value used by every other app sharing this instance."
   type        = string
-  default     = "BASIC"
+  default     = "redis"
 }
 
-variable "redis_memory_size_gb" {
-  description = "Memorystore Redis instance memory size in GB."
+variable "redis_db" {
+  description = "Redis logical DB index (0-15) this app uses to isolate its keys on the shared instance."
   type        = number
   default     = 1
 }

@@ -114,7 +114,7 @@ resource "google_cloud_run_v2_service" "server" {
 
   depends_on = [
     module.postgresql,
-    google_redis_instance.main,
+    module.redis,
     google_secret_manager_secret_version.outline,
     google_secret_manager_secret_version.outline_auth,
   ]

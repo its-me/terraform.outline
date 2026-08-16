@@ -10,7 +10,7 @@ resource "random_id" "utils_secret" {
 
 locals {
   database_url = "postgres://${var.db_user}:${module.postgresql.database_password}@${module.postgresql.instance_private_ip}:5432/${var.db_name}"
-  redis_url    = "redis://${google_redis_instance.main.host}:${google_redis_instance.main.port}"
+  redis_url    = "redis://${module.redis.host}:${module.redis.port}/${var.redis_db}"
 
   secrets = {
     secret-key                = random_id.secret_key.hex
