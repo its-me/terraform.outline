@@ -1,15 +1,10 @@
-output "load_balancer_ip" {
-  description = "Global external IP of the load balancer. Point an A record for var.domain at this."
-  value       = google_compute_global_address.server_lb_ip.address
-}
-
 output "cloud_run_url" {
   description = "Auto-generated Cloud Run URL for the server (works immediately, before DNS/SSL cert provisioning finishes)."
   value       = google_cloud_run_v2_service.server.uri
 }
 
 output "domain" {
-  description = "Custom domain to create a DNS A record for, pointing at load_balancer_ip."
+  description = "Custom domain to create a DNS A record for. Points at the shared load balancer's IP (see terraform.infrastructure's load_balancer_ip output)."
   value       = var.domain
 }
 
