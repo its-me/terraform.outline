@@ -23,7 +23,7 @@ resource "google_project_service" "apis" {
 # Owned and created by terraform.infrastructure; every app (this one included) just
 # reads it back (create = false).
 module "network" {
-  source = "git::https://github.com/its-me/terraform.module.network.git?ref=v0.1.0"
+  source = "git::https://github.com/its-me/terraform.module.network.git?ref=v0.1.1"
 
   project_id = var.project_id
   region     = var.region

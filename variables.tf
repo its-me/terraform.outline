@@ -58,13 +58,13 @@ variable "redis_db" {
 variable "server_cpu" {
   description = "vCPUs allocated to the server Cloud Run container."
   type        = string
-  default     = "1"
+  default     = "0.5"
 }
 
 variable "server_memory" {
-  description = "Memory allocated to the server Cloud Run container."
+  description = "Memory allocated to the server Cloud Run container. Cloud Run requires at least 512Mi when cpu < 1."
   type        = string
-  default     = "1Gi"
+  default     = "512Mi"
 }
 
 variable "server_min_instance_count" {
