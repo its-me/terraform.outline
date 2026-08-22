@@ -35,7 +35,7 @@ locals {
 }
 
 resource "google_cloud_run_v2_service" "server" {
-  name                = "outline-server"
+  name                = "outline"
   project             = var.project_id
   location            = var.region
   deletion_protection = false
