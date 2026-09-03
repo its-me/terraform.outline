@@ -28,7 +28,7 @@ variable "image_tag" {
 variable "db_instance_name" {
   description = "Name of the shared Cloud SQL instance (see terraform.module.postgresql). Must match the value used by every other app sharing this instance."
   type        = string
-  default     = "postgres"
+  default     = "postgresql0"
 }
 
 variable "db_name" {
@@ -46,7 +46,7 @@ variable "db_user" {
 variable "redis_instance_name" {
   description = "Name of the shared Memorystore Redis instance (see terraform.module.redis). Must match the value used by every other app sharing this instance."
   type        = string
-  default     = "redis"
+  default     = "redis0"
 }
 
 variable "redis_db" {
