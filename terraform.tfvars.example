@@ -1,5 +1,9 @@
 # Copy to terraform.tfvars and fill in your own values.
 
+# IMPORTANT: this app depends on the shared infrastructure (network, Cloud SQL, Redis)
+# in terraform.infrastructure. Destroy order: this repo (and every other app repo)
+# FIRST, then terraform.infrastructure LAST.
+
 project_id = ""
 region     = ""
 domain     = ""
