@@ -8,12 +8,12 @@ output "domain" {
   value       = var.domain
 }
 
-output "db_instance_connection_name" {
+output "postgresql_instance_connection_name" {
   description = "Cloud SQL instance connection name."
   value       = module.postgresql.instance_connection_name
 }
 
-output "db_private_ip" {
+output "postgresql_private_ip" {
   description = "Private IP address of the Cloud SQL instance."
   value       = module.postgresql.instance_private_ip
 }

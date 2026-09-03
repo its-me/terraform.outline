@@ -7,9 +7,9 @@ module "postgresql" {
 
   project_id = var.project_id
   region     = var.region
-  name       = var.db_instance_name
+  name       = var.postgresql_instance_name
   create     = false
 
-  database_name = var.db_name
-  database_user = var.db_user
+  database_name = var.postgresql_name
+  database_user = var.postgresql_user
 }

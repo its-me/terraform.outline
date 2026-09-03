@@ -25,19 +25,19 @@ variable "image_tag" {
   default     = "latest"
 }
 
-variable "db_instance_name" {
+variable "postgresql_instance_name" {
   description = "Name of the shared Cloud SQL instance (see terraform.module.postgresql). Must match the value used by every other app sharing this instance."
   type        = string
   default     = "postgresql0"
 }
 
-variable "db_name" {
+variable "postgresql_name" {
   description = "Postgres database name (matches the database in DATABASE_URL)."
   type        = string
   default     = "outline"
 }
 
-variable "db_user" {
+variable "postgresql_user" {
   description = "Postgres user (matches the user in DATABASE_URL)."
   type        = string
   default     = "outline"
