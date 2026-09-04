@@ -67,6 +67,9 @@ resource "google_cloud_run_v2_service" "server" {
           cpu    = var.server_cpu
           memory = var.server_memory
         }
+        # GCP requires cpu >= 1 whenever CPU is always allocated (unthrottled). Below
+        # that, CPU must be throttled to idle outside of request processing.
+        cpu_idle = true
       }
 
       dynamic "env" {
