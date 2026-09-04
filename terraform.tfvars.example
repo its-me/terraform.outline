@@ -3,6 +3,12 @@
 # IMPORTANT: this app depends on the shared infrastructure (network, Cloud SQL, Redis)
 # in terraform.infrastructure. Destroy order: this repo (and every other app repo)
 # FIRST, then terraform.infrastructure LAST.
+#
+# `terraform destroy` here can never delete the shared network/Cloud SQL/Redis
+# instances themselves -- network.tf/postgresql.tf/redis.tf all hardcode create =
+# false, which reads them back as data sources, not resources. The only things this
+# repo can destroy are its own Cloud Run service, secrets, storage bucket, and its own
+# database/user on the shared instance.
 
 project_id = ""
 region     = ""
@@ -22,11 +28,11 @@ auth_env = {
 # sharing this VPC (see terraform.module.network).
 # network_name = ""
 
-# Optional, defaults to "postgres". Must match the value used by every other app
+# Optional, defaults to "postgresql0". Must match the value used by every other app
 # sharing this Cloud SQL instance (see terraform.module.postgresql).
 # postgresql_instance_name = ""
 
-# Optional, defaults to "redis". Must match the value used by every other app
+# Optional, defaults to "redis0". Must match the value used by every other app
 # sharing this Redis instance (see terraform.module.redis).
 # redis_instance_name = ""
 
