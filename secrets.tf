@@ -9,7 +9,7 @@ resource "random_id" "utils_secret" {
 }
 
 locals {
-  database_url = "postgres://${var.postgresql_user}:${module.postgresql.database_password}@${module.postgresql.instance_private_ip}:5432/${var.postgresql_name}"
+  database_url = "postgres://${var.postgresql_user}:${module.postgresql.database_password}@${module.postgresql.instance_private_ip}:${module.postgresql.port}/${var.postgresql_name}"
   redis_url    = "redis://${module.redis.host}:${module.redis.port}/${var.redis_db}"
 
   secrets = {
