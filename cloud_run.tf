@@ -1,11 +1,10 @@
 locals {
-  image = "docker.getoutline.com/outlinewiki/outline:${var.image_tag}"
+  image = "${var.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.outline_upstream.repository_id}/outlinewiki/outline:${var.image_tag}"
 
   # Plain (non-secret) env vars.
   base_env = {
     NODE_ENV                     = "production"
     URL                          = "https://${var.domain}"
-    PORT                         = "3000"
     REDIS_URL                    = local.redis_url
     FILE_STORAGE                 = "s3"
     AWS_REGION                   = "auto"
@@ -64,7 +63,7 @@ resource "google_cloud_run_v2_service" "server" {
       image = local.image
 
       ports {
-        container_port = 3000
+        container_port = var.server_port
       }
 
       resources {
@@ -101,7 +100,7 @@ resource "google_cloud_run_v2_service" "server" {
       startup_probe {
         http_get {
           path = "/_health"
-          port = 3000
+          port = var.server_port
         }
         initial_delay_seconds = 10
         period_seconds        = 5
@@ -112,7 +111,7 @@ resource "google_cloud_run_v2_service" "server" {
       liveness_probe {
         http_get {
           path = "/_health"
-          port = 3000
+          port = var.server_port
         }
         period_seconds  = 10
         timeout_seconds = 5

@@ -55,6 +55,12 @@ variable "redis_db" {
   default     = 1
 }
 
+variable "server_port" {
+  description = "Port the server container listens on (PORT is set automatically by Cloud Run to match this)."
+  type        = number
+  default     = 3000
+}
+
 variable "server_cpu" {
   description = "vCPUs allocated to the server Cloud Run container."
   type        = string
