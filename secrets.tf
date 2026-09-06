@@ -70,3 +70,30 @@ resource "google_secret_manager_secret_version" "outline_auth" {
   secret      = google_secret_manager_secret.outline_auth[each.value].id
   secret_data = var.auth_env[each.value]
 }
+
+# SMTP settings for outgoing transactional email (optional -- see var.smtp_env). Mirrors
+# the auth_env pattern above: keys pulled out via nonsensitive() for use as for_each
+# identifiers, values stay sensitive throughout.
+locals {
+  smtp_env_keys = nonsensitive(toset(keys(var.smtp_env)))
+}
+
+resource "google_secret_manager_secret" "outline_smtp" {
+  for_each = local.smtp_env_keys
+
+  project   = var.project_id
+  secret_id = "outline-smtp-${lower(replace(each.value, "_", "-"))}"
+
+  replication {
+    auto {}
+  }
+
+  depends_on = [google_project_service.apis]
+}
+
+resource "google_secret_manager_secret_version" "outline_smtp" {
+  for_each = local.smtp_env_keys
+
+  secret      = google_secret_manager_secret.outline_smtp[each.value].id
+  secret_data = var.smtp_env[each.value]
+}

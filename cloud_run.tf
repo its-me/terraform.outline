@@ -3,16 +3,19 @@ locals {
 
   # Plain (non-secret) env vars.
   base_env = {
-    NODE_ENV                  = "production"
-    URL                       = "https://${var.domain}"
-    PORT                      = "3000"
-    REDIS_URL                 = local.redis_url
-    FILE_STORAGE              = "s3"
-    AWS_REGION                = "auto"
-    AWS_S3_UPLOAD_BUCKET_NAME = google_storage_bucket.outline_files.name
-    AWS_S3_UPLOAD_BUCKET_URL  = "https://storage.googleapis.com/${google_storage_bucket.outline_files.name}"
-    AWS_S3_FORCE_PATH_STYLE   = "true"
-    AWS_S3_ACL                = "private"
+    NODE_ENV                     = "production"
+    URL                          = "https://${var.domain}"
+    PORT                         = "3000"
+    REDIS_URL                    = local.redis_url
+    FILE_STORAGE                 = "s3"
+    AWS_REGION                   = "auto"
+    AWS_S3_UPLOAD_BUCKET_NAME    = google_storage_bucket.outline_files.name
+    AWS_S3_UPLOAD_BUCKET_URL     = "https://storage.googleapis.com/${google_storage_bucket.outline_files.name}"
+    AWS_S3_FORCE_PATH_STYLE      = "true"
+    AWS_S3_ACL                   = "private"
+    FILE_STORAGE_UPLOAD_MAX_SIZE = tostring(var.file_storage_upload_max_size)
+    DEFAULT_LANGUAGE             = var.default_language
+    ENABLE_UPDATES               = tostring(var.enable_updates)
     # Standard AWS SDK credential env var, used by Outline's S3 storage driver
     # against GCS's S3-interoperability API (no IAM-role credential chain on GCP).
     AWS_ACCESS_KEY_ID = google_storage_hmac_key.outline_files.access_id
@@ -26,11 +29,13 @@ locals {
     AWS_SECRET_ACCESS_KEY = "storage-secret-access-key"
   }
 
-  # Merges the fixed secrets above with the pluggable auth-provider secrets from
-  # var.auth_env into a single env-var-name -> secret_id map for the dynamic block below.
+  # Merges the fixed secrets above with the pluggable auth-provider and SMTP secrets
+  # from var.auth_env/var.smtp_env into a single env-var-name -> secret_id map for the
+  # dynamic block below.
   secret_env_ids = merge(
     { for env_name, key in local.fixed_secret_env : env_name => google_secret_manager_secret.outline[key].secret_id },
     { for env_name in local.auth_env_keys : env_name => google_secret_manager_secret.outline_auth[env_name].secret_id },
+    { for env_name in local.smtp_env_keys : env_name => google_secret_manager_secret.outline_smtp[env_name].secret_id },
   )
 }
 
@@ -120,5 +125,6 @@ resource "google_cloud_run_v2_service" "server" {
     module.redis,
     google_secret_manager_secret_version.outline,
     google_secret_manager_secret_version.outline_auth,
+    google_secret_manager_secret_version.outline_smtp,
   ]
 }

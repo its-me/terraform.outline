@@ -21,6 +21,33 @@ auth_env = {
   GOOGLE_CLIENT_SECRET = ""
 }
 
+# Alternative: generic OIDC provider (e.g. Auth0). See
+# https://docs.getoutline.com/s/hosting/doc/oidc-8CPBm6uC0I for details.
+# auth_env = {
+#   OIDC_CLIENT_ID      = ""
+#   OIDC_CLIENT_SECRET  = ""
+#   OIDC_AUTH_URI       = ""
+#   OIDC_TOKEN_URI      = ""
+#   OIDC_USERINFO_URI   = ""
+#   OIDC_LOGOUT_URI     = "https://${domain}"
+#   OIDC_USERNAME_CLAIM = "email"
+#   OIDC_DISPLAY_NAME   = "Auth0"
+#   OIDC_SCOPES         = "openid profile email"
+# }
+
+# Optional, defaults to 262144000 (250MiB).
+# file_storage_upload_max_size = 262144000
+
+# Optional. Without it, Outline sends no email (e.g. invites, notifications,
+# password-reset links). See variable "smtp_env" and
+# https://docs.getoutline.com/s/hosting/doc/smtp-cqCJyZGMIB for details.
+# smtp_env = {
+#   SMTP_SERVICE    = "" # or SMTP_HOST/SMTP_PORT instead, see docs
+#   SMTP_USERNAME   = ""
+#   SMTP_PASSWORD   = ""
+#   SMTP_FROM_EMAIL = ""
+# }
+
 # Optional, defaults to `region` if unset.
 # storage_bucket_location = ""
 

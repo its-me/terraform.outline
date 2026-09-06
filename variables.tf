@@ -85,8 +85,33 @@ variable "storage_bucket_location" {
   default     = null
 }
 
+variable "file_storage_upload_max_size" {
+  description = "Maximum allowed size, in bytes, for an uploaded attachment (FILE_STORAGE_UPLOAD_MAX_SIZE)."
+  type        = number
+  default     = 262144000
+}
+
+variable "default_language" {
+  description = "Default interface language (DEFAULT_LANGUAGE). See translate.getoutline.com for available language codes."
+  type        = string
+  default     = "en_US"
+}
+
+variable "enable_updates" {
+  description = "Whether to check for updates by sending anonymized statistics to the Outline maintainers (ENABLE_UPDATES)."
+  type        = bool
+  default     = true
+}
+
 variable "auth_env" {
   description = "Third-party sign-in provider credentials (e.g. GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SLACK_CLIENT_ID, OIDC_CLIENT_SECRET). At least one provider's credentials are required for Outline to have a working sign-in option. Each entry is stored as its own Secret Manager secret and exposed to the container under the given env var name. See https://docs.getoutline.com for supported providers."
+  type        = map(string)
+  default     = {}
+  sensitive   = true
+}
+
+variable "smtp_env" {
+  description = "SMTP settings for outgoing transactional email (e.g. SMTP_SERVICE, SMTP_USERNAME, SMTP_PASSWORD, SMTP_FROM_EMAIL). Optional -- if unset, Outline sends no email. Each entry is stored as its own Secret Manager secret and exposed to the container under the given env var name. See https://docs.getoutline.com/s/hosting/doc/smtp-cqCJyZGMIB."
   type        = map(string)
   default     = {}
   sensitive   = true
