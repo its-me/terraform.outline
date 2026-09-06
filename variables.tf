@@ -68,15 +68,15 @@ variable "server_memory" {
 }
 
 variable "server_min_instance_count" {
-  description = "Minimum number of server instances. Kept at 1 so websocket connections for real-time collaboration stay warm."
+  description = "Minimum number of server instances. 0 allows scale-to-zero when idle, at the cost of a cold start on the next request and dropping any open websocket connections used for real-time collaboration when the instance scales down."
   type        = number
-  default     = 1
+  default     = 0
 }
 
 variable "server_max_instance_count" {
   description = "Maximum number of server instances."
   type        = number
-  default     = 3
+  default     = 1
 }
 
 variable "storage_bucket_location" {
