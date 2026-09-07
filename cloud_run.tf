@@ -6,14 +6,18 @@ locals {
 
   # Plain (non-secret) env vars.
   base_env = {
-    NODE_ENV                     = "production"
-    URL                          = "https://${var.domain}"
-    REDIS_URL                    = local.redis_url
-    FILE_STORAGE                 = "s3"
-    AWS_REGION                   = "auto"
-    AWS_S3_UPLOAD_BUCKET_NAME    = google_storage_bucket.outline_files.name
-    AWS_S3_UPLOAD_BUCKET_URL     = "https://storage.googleapis.com/${google_storage_bucket.outline_files.name}"
-    AWS_S3_FORCE_PATH_STYLE      = "true"
+    NODE_ENV                  = "production"
+    URL                       = "https://${var.domain}"
+    REDIS_URL                 = local.redis_url
+    FILE_STORAGE              = "s3"
+    AWS_REGION                = "auto"
+    AWS_S3_UPLOAD_BUCKET_NAME = google_storage_bucket.outline_files.name
+    AWS_S3_UPLOAD_BUCKET_URL  = "https://storage.googleapis.com/${google_storage_bucket.outline_files.name}"
+    AWS_S3_FORCE_PATH_STYLE   = "true"
+    # Outline's own Attachment model validates this is "private" or "public-read" --
+    # it can't be blanked to avoid sending an ACL. The bucket must instead allow
+    # legacy ACLs for this value to be accepted by GCS (see uniform_bucket_level_access
+    # in storage.tf).
     AWS_S3_ACL                   = "private"
     FILE_STORAGE_UPLOAD_MAX_SIZE = tostring(var.file_storage_upload_max_size)
     DEFAULT_LANGUAGE             = var.default_language

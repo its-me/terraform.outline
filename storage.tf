@@ -6,7 +6,11 @@ resource "google_storage_bucket" "outline_files" {
   project  = var.project_id
   location = coalesce(var.storage_bucket_location, var.region)
 
-  uniform_bucket_level_access = true
+  # Outline's S3 storage driver always sends an ACL (AWS_S3_ACL, "private" or
+  # "public-read") on uploads -- GCS rejects any ACL when uniform bucket-level access
+  # is on ("Cannot insert legacy ACL for an object..."), so it must stay off here even
+  # though IAM (google_storage_bucket_iam_member below) already governs real access.
+  uniform_bucket_level_access = false
   force_destroy               = false
 
   # Outline's browser client uploads attachments/avatars/workspace imports directly to

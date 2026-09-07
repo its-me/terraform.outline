@@ -74,15 +74,15 @@ variable "server_memory" {
 }
 
 variable "server_min_instance_count" {
-  description = "Minimum number of server instances. 0 allows scale-to-zero when idle, at the cost of a cold start on the next request and dropping any open websocket connections used for real-time collaboration when the instance scales down."
+  description = "Minimum number of server instances. Kept at 1 so websocket connections for real-time collaboration stay warm and there's always an instance available -- at 0, a busy/cold-starting single instance combined with server_max_instance_count = 1 left no capacity for concurrent requests, surfacing as \"no available instance\" rejections (e.g. \"Upload failed\" on import)."
   type        = number
-  default     = 0
+  default     = 1
 }
 
 variable "server_max_instance_count" {
-  description = "Maximum number of server instances."
+  description = "Maximum number of server instances. Kept above 1 so a busy instance (e.g. processing a workspace import) doesn't leave the whole service with no capacity to burst to, which surfaced as \"no available instance\" rejections (e.g. \"Upload failed\" on import) even with server_min_instance_count = 1."
   type        = number
-  default     = 1
+  default     = 2
 }
 
 variable "storage_bucket_location" {
