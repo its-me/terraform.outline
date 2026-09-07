@@ -22,6 +22,7 @@ locals {
     FILE_STORAGE_UPLOAD_MAX_SIZE = tostring(var.file_storage_upload_max_size)
     DEFAULT_LANGUAGE             = var.default_language
     ENABLE_UPDATES               = tostring(var.enable_updates)
+    DATABASE_CONNECTION_POOL_MAX = tostring(var.database_connection_pool_max)
     # Standard AWS SDK credential env var, used by Outline's S3 storage driver
     # against GCS's S3-interoperability API (no IAM-role credential chain on GCP).
     AWS_ACCESS_KEY_ID = google_storage_hmac_key.outline_files.access_id

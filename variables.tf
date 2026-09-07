@@ -55,6 +55,12 @@ variable "redis_db" {
   default     = 1
 }
 
+variable "database_connection_pool_max" {
+  description = "Max size of Outline's write connection pool per instance (its read-only pool is 2x this). The shared Postgres instance's max_connections is sized (see postgresql_max_connections in terraform.infrastructure) for this value staying low: at server_max_instance_count = 2, this value's 3x (write + 2x read-only) x 2 instances must leave headroom for Postgres's reserved connections and everything else sharing the instance (e.g. Twenty CRM)."
+  type        = number
+  default     = 2
+}
+
 variable "server_port" {
   description = "Port the server container listens on (PORT is set automatically by Cloud Run to match this)."
   type        = number
