@@ -12,8 +12,13 @@ locals {
     FILE_STORAGE              = "s3"
     AWS_REGION                = "auto"
     AWS_S3_UPLOAD_BUCKET_NAME = google_storage_bucket.outline_files.name
-    AWS_S3_UPLOAD_BUCKET_URL  = "https://storage.googleapis.com/${google_storage_bucket.outline_files.name}"
-    AWS_S3_FORCE_PATH_STYLE   = "true"
+    # Must be the bare endpoint, not the bucket's URL -- AWS_S3_FORCE_PATH_STYLE already
+    # makes the S3 client append /<bucket>/<key> to this on every request, so including
+    # the bucket here doubles it (.../bucket/bucket/key), 404ing on every read (HeadObject/
+    # GetObject) even though presigned-POST uploads use a different code path and still
+    # land in the right place. See Outline's own .env.sample, which uses a bare endpoint.
+    AWS_S3_UPLOAD_BUCKET_URL = "https://storage.googleapis.com"
+    AWS_S3_FORCE_PATH_STYLE  = "true"
     # Outline's own Attachment model validates this is "private" or "public-read" --
     # it can't be blanked to avoid sending an ACL. The bucket must instead allow
     # legacy ACLs for this value to be accepted by GCS (see uniform_bucket_level_access
