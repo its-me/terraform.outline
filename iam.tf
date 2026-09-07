@@ -11,7 +11,7 @@ resource "google_project_iam_member" "cloud_run_cloudsql_client" {
 }
 
 resource "google_secret_manager_secret_iam_member" "cloud_run_secret_access" {
-  for_each = merge(google_secret_manager_secret.outline, google_secret_manager_secret.outline_auth)
+  for_each = merge(google_secret_manager_secret.outline, google_secret_manager_secret.outline_auth, google_secret_manager_secret.outline_smtp)
 
   project   = var.project_id
   secret_id = each.value.secret_id

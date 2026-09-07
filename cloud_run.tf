@@ -1,5 +1,8 @@
 locals {
-  image = "${var.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.outline_upstream.repository_id}/outlinewiki/outline:${var.image_tag}"
+  # docker.getoutline.com/outlinewiki/outline is just a redirect (302) to
+  # registry.hub.docker.com/outlinewiki/outline, and Cloud Run only pulls from
+  # gcr.io/docker.pkg.dev/docker.io -- reference the same image via docker.io directly.
+  image = "docker.io/outlinewiki/outline:${var.image_tag}"
 
   # Plain (non-secret) env vars.
   base_env = {
