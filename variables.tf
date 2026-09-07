@@ -62,9 +62,9 @@ variable "server_port" {
 }
 
 variable "server_cpu" {
-  description = "vCPUs allocated to the server Cloud Run container."
+  description = "vCPUs allocated to the server Cloud Run container. Must be >= 1: below that, Cloud Run silently caps max_instance_request_concurrency at 1 (vs. 80 for cpu >= 1), which with only 1 instance allowed (server_max_instance_count) limits the whole service to one in-flight request at a time and causes bursty page loads (many JS chunks/API calls fired in parallel) to 429 instead of queuing."
   type        = string
-  default     = "0.5"
+  default     = "1"
 }
 
 variable "server_memory" {
