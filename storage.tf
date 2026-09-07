@@ -9,6 +9,17 @@ resource "google_storage_bucket" "outline_files" {
   uniform_bucket_level_access = true
   force_destroy               = false
 
+  # Outline's browser client uploads attachments/avatars/workspace imports directly to
+  # this bucket via a presigned URL, not through the server. Without CORS allowing
+  # var.domain to make cross-origin PUT requests, the browser blocks the upload before
+  # it leaves the client, surfacing as a generic "Upload failed" in the UI.
+  cors {
+    origin          = ["https://${var.domain}"]
+    method          = ["GET", "HEAD", "PUT", "POST"]
+    response_header = ["*"]
+    max_age_seconds = 3600
+  }
+
   labels = var.labels
 }
 
